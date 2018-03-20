@@ -1,0 +1,8 @@
+﻿{
+  "KeyVault": {
+    "VaultName": "kv-demo",
+    "KeyVaultClientId": "4035b23b-c035-40f5-913e-f2c1015cd80f",
+    "KeyVaultClientSecret": "3LVFSvnDciZnGZTGlY7KYBxFqoGAxapv6HXTkTQkkXg=",
+    "AADTenantId": "b8d7b08f-2feb-4471-b588-4b8acb90c997"
+  }
+}
