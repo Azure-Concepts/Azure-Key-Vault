@@ -1,0 +1,10 @@
+﻿{
+  "KeyVault": {
+    "VaultName": "kv-demo",
+    "KeyVaultClientId": "d6520edc-3799-4d69-a5fe-6b1a0ea2e3f1",
+    "KeyVaultAppCertificateThumbprint": "8082a0032ecf09e2de1d44bfb1026ff6e1e8fd88",
+    "CertificateStoreLocation": 2,
+    "CertificateStoreName": 5,
+    "AADTenantId": "b8d7b08f-2feb-4471-b588-4b8acb90c997"
+  }
+}
