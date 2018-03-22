@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using KeyVault.Core;
 using LMS.Auth;
 using LMS.Data;
 using LMS.Data.Repository;
@@ -43,22 +42,10 @@ namespace Api
             var tokenProvider = new AzureServiceTokenProvider();
             services.AddSingleton<IApplicationAuthorizationContext>(sp => new ApplicationAuthorizationContext(tokenProvider));
 
-            services.AddSingleton(typeof(KeyVaultConfiguation), (sp) => sp.GetService<IOptions<KeyVaultConfiguation>>().Value);
-            services.AddSingleton<IKeyStoreReader, KeyStoreReader>();
+            services.AddSingleton(typeof(AzureStorageConfiguration), (sp) => sp.GetService<IOptions<AzureStorageConfiguration>>().Value);
 
-            services.AddSingleton(typeof(AzureStorageConfiguration), (sp) =>
-            {
-                var settings = sp.GetService<IOptions<AzureStorageConfiguration>>().Value;
-                settings.AccountKey = sp.GetService<IKeyStoreReader>().GetSecretAsync("storage-key").Result;
-                return settings;
-            });
+            services.AddDbContext<LibraryContext>((sp, options) => options.UseSqlServer("Server=lms-db-demo.database.windows.net;user=lmsadmin; password=Sparrow&89; Database=lmsdb;Trusted_Connection=False;Encrypt=True;", b => b.MigrationsAssembly("LMS.Api")));
 
-
-            services.AddDbContext<LibraryContext>((sp, options) => 
-            {
-                var connectionString = sp.GetService<IKeyStoreReader>().GetSecretAsync("db-connection-string").Result;
-                options.UseSqlServer(connectionString, b => b.MigrationsAssembly("LMS.Api"));
-            });
             services.AddScoped<ITableService<BookCheckoutEntity>>(sp => new TableService<BookCheckoutEntity>(sp.GetService<AzureStorageConfiguration>(), "checkouthistory"));
             services.AddScoped<IBookRespository, BookRepository>();
             services.AddScoped<IAuthorRepository, AuthorRepository>();
